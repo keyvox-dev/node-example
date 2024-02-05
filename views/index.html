@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+    <body class="bg-gray-200">
+        {% include 'header.html' %}
+        <div class="container py-9 px-48">
+            <h1 class="text-3xl my-6 font-black">Latest articles</h1>
+
+            <div class="my-3">
+                {% for tag in tags.data %}
+                    <a class="bg-teal-700 text-xs px-3 py-1 mr-3 rounded-xl text-white" href="/tags/{{ tag.slug }}">
+                        #{{ tag.title }}
+                    </a>
+                {% endfor %}
+            </div>
+
+            <div class="grid grid-cols-3 gap-9">
+                {% for article in articles.data %}
+                    <div class="card bg-gray-50 rounded-lg shadow-sm pb-3">
+                        <div class="card-body ">
+                            <div>
+                                {% if article.background %}
+                                    <a href="/infos/{{ article.slug }}">
+                                        <img src="{{ article.background }}" alt="article background">
+                                    </a>
+                                {% endif %}
+                            </div>
+                            <div class="flex">
+                                <a class="flex-1 px-3 py-1 text-sm" href="/infos/{{ article.slug }}">
+                                    {{ article.createdAt | formatDateTimestamp  }}
+                                </a>
+                            </div>
+                            <h2 class="text-2xl font-bold flex">
+                                <a class="flex-1 px-3 py-2" href="/infos/{{ article.slug }}">
+                                    {{ article.title }}
+                                </a>
+                            </h2>
+                            <div class="flex mt-3 px-3">
+                                {% for tag in article.tags %}
+                                    <a class="bg-teal-700 text-xs px-3 py-1 mr-3 rounded-xl text-white" href="#">
+                                        #{{ tag.title }}
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="flex justify-center  mt-6">
+                {% for i in range(1, linksCount + 1) %}
+                    <a class="bg-purple-600 w-9 h-9 flex items-center justify-center text-white mx-1 rounded-lg" href="?page={{ i }}">
+                        {{ i }}
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    </body>
+</html>
